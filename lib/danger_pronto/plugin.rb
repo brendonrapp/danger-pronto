@@ -14,7 +14,7 @@ module Danger
   class DangerPronto < Plugin
 
     # Runs files through Pronto. Generates a `markdown` list of warnings.
-    def lint(opts)
+    def lint(opts = {})
       merged_options = { commit: nil, bundler: true }.merge(opts)
       files = pronto(merged_options)
       return if files.empty?
