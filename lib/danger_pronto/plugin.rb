@@ -15,11 +15,11 @@ module Danger
 
     # Runs files through Pronto. Generates a `markdown` list of warnings.
     def lint(opts = {})
-      merged_options = { commit: nil, bundler: true }.merge(opts)
+      merged_options = { commit: nil, bundler: true, header: "Pronto violations" }.merge(opts)
       files = pronto(merged_options)
       return if files.empty?
 
-      markdown offenses_message(files)
+      markdown offenses_message(files, merged_options[:header])
     end
 
     private
@@ -37,10 +37,10 @@ module Danger
     end
 
     # Builds the message
-    def offenses_message(offending_files)
+    def offenses_message(offending_files, header)
       require 'terminal-table'
 
-      message = "### Pronto violations\n\n"
+      message = "### #{header}\n\n"
       table = Terminal::Table.new(
         headings: %w(File Line Reason Runner),
         style: { border_i: '|' },
